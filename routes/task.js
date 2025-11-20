@@ -12,8 +12,57 @@ router.get('/', async (req, res, next) => {
                 res.render('Tasks/list', { title: 'Tasks', tasks: TaskList, TaskList: TaskList });
         } catch (err) {
                 console.error(err);
-                return res.status(500).render('error', { title: 'Error', message: 'Failed to fetch tasks' });
+                res.render('Tasks/list',{
+                    error: 'Error on server'
+                })
         }
 });
+//Get route for displaying the add page
+router.get('/add', (req, res, next) => {
+    try {
+                // Render the existing top-level add.ejs so /tasks/add works
+                res.render('add', { title: 'Add a Task' });
+    }
+    catch (err) {
+                console.error(err);
+                res.render('Tasks/list',{
+                    error: 'Error on server'
+                })
+        }
+});
+//Post route for processing the add page
+router.post('/add', (req, res, next) => {
+    try 
+    {
+        let newTask = Task({
+            "title": req.body.title,
+            "description": req.body.description,
+            "dueDate": req.body.dueDate,
+            "status": req.body.status,
+            "priority": req.body.priority
+        });
+        Task.create(newTask).then(()=>{
+            res.redirect('/tasks');
+        });
 
+    }
+    catch (err) {
+        console.error(err);
+        res.render('Tasks/list',{
+            error: 'Error on server'
+        })
+    }
+
+});
+//Get route for displaying the edit page
+router.get('/edit/:id', (req, res, next) => {
+
+});
+//post route for processing the edit page
+router.post('/edit/:id', (req, res, next) => {
+
+});
+//Get to perform deletion
+router.get('/delete/:id', (req, res, next) => {
+});
 module.exports = router;

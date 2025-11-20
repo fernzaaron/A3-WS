@@ -1,35 +1,35 @@
 <%- include('../partials/header') %>
 <%- include('../partials/main_nav') %>
-    <!-- Page Content -->
+        <!-- Page Content -->
 <main class="container">
 <div class="row">
-    <div class="offset-md-1 col-md-10">
-        <h1><%= title %></h1>
-        <br>
-        <table class="table table-bordered table-striped">
-            <!-- Table Header -->
-            <tr class="d-flex">
-                <th class="text-center col-1">Title</th> 
-                <th class="text-center col-3">Description</th> 
-                <th class="text-center col-2">Due Date</th> 
-                <th class="text-center col-2">Status</th> 
-                <th class="text-center col-2">Priority</th> 
-            </tr>
-            <!-- Table Body --><!-- Loop through tasks array -->
-             <% for(let count=0; count < TaskList.length; count++) { %>
-            <tr class="d-flex">
-                    <td class="text-center col-1"><%= TaskList[count].title %></td>
-                    <td class="text-center col-3"><%= TaskList[count].description %></td>
-                    <td class="text-center col-2"><%= TaskList[count].dueDate %></td>
-                    <td class="text-center col-2"><%= TaskList[count].status %></td>
-                    <td class="text-center col-2"><%= TaskList[count].priority %></td>
-                </tr>
-            <% } %>
-        </table>
+        <div class="offset-md-1 col-md-10">
+                <h1><%= title %></h1>
+                <br>
+                <table class="table table-bordered table-striped">
+                        <!-- Table Header -->
+                        <tr class="d-flex">
+                                <th class="text-center col-1">Title</th> 
+                                <th class="text-center col-3">Description</th> 
+                                <th class="text-center col-2">Due Date</th> 
+                                <th class="text-center col-2">Status</th> 
+                                <th class="text-center col-2">Priority</th> 
+                        </tr>
+                        <!-- Table Body --><!-- Loop through tasks array -->
+                         <% for(let count=0; count < TaskList.length; count++) { %>
+                        <tr class="d-flex">
+                                        <td class="text-center col-1"><%= TaskList[count].title %></td>
+                                        <td class="text-center col-3"><%= TaskList[count].description %></td>
+                                        <td class="text-center col-2"><%= TaskList[count].dueDate %></td>
+                                        <td class="text-center col-2"><%= TaskList[count].status %></td>
+                                        <td class="text-center col-2"><%= TaskList[count].priority %></td>
+                                </tr>
+                        <% } %>
+                </table>
         
         
         
-    </div>
+        </div>
 </div>
 
     
