@@ -1,5 +1,20 @@
-<%- include ./partials/header.ejs %>
-<%- include ./partials/main_nav.ejs %>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %> page</p>
-<%- include ./partials/footer.ejs %>
+<%- include('partials/header') %>
+<%- include('partials/main_nav') %>
+
+<main class="container">
+    <section class="hero">
+        <div class="hero-inner">
+            <h1 class="hero-title"><%= title || 'Task Directory' %></h1>
+            <p class="hero-subtitle">Organize, prioritize, and track tasks in one simple directory. Designed for small teams and personal projects-add tasks, update progress, and keep work moving forward.</p>
+
+            <div class="hero-ctas d-flex justify-content-center gap-2">
+                <a href="/tasks" class="btn btn-primary btn-lg">View Tasks</a>
+                <a href="/tasks/add" class="btn btn-outline-primary btn-lg">Add Task</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feature cards removed — splash now focuses on hero + CTAs -->
+</main>
+
+<%- include('partials/footer') %>

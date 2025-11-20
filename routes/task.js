@@ -55,14 +55,53 @@ router.post('/add', (req, res, next) => {
 
 });
 //Get route for displaying the edit page
-router.get('/edit/:id', (req, res, next) => {
+router.get('/edit/:id', async (req, res, next) => {
+    try {
+        const id = req.params.id;
+        const taskToEdit = await Task.findById(id);
+        if (!taskToEdit) {
+            return res.status(404).render('Tasks/list', { title: 'Tasks', error: 'Task not found' });
+        }
+        res.render('edit', { title: 'Edit Task', task: taskToEdit });
+    }
+    catch (err) {
+        console.log(err);
+        next(err);
+    }
 
 });
-//post route for processing the edit page
-router.post('/edit/:id', (req, res, next) => {
+// Post route for processing the edit page - Update operation
+router.post('/edit/:id', async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        let updateTask = Task({
+            "_id": id,
+            "title": req.body.title,
+            "description": req.body.description,
+            "dueDate": req.body.dueDate,
+            "status": req.body.status,
+            "priority": req.body.priority
+        });
+        await Task.findByIdAndUpdate(id, updateTask);
+        res.redirect('/tasks');
+    }
+    catch (err) {
+        console.log(err);
+        next(err);
+    }
 
 });
-//Get to perform deletion
-router.get('/delete/:id', (req, res, next) => {
+// Get route to perform delete operation - Delete operation
+router.get('/delete/:id', async (req, res, next) => {
+    try {
+        let id = req.params.id;
+        await Task.deleteOne({ _id: id });
+        res.redirect('/tasks');
+    }
+    catch (err) {
+        console.log(err);
+        next(err);
+    }
+
 });
 module.exports = router;
