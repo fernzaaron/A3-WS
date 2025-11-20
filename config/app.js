@@ -11,6 +11,7 @@ dotenv.config({ path: './config/.env'});
 
 var indexRouter = require('../routes/index');
 var usersRouter = require('../routes/users');
+let taskRouter = require('../routes/task');
 
 var app = express();
 // connect to MongoDB
@@ -33,6 +34,7 @@ app.use(express.static(path.join(__dirname, '../public')));
 app.use(express.static(path.join(__dirname, '../node_modules')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
+app.use('/tasks', taskRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
