@@ -9,7 +9,7 @@ router.get('/', async (req, res, next) => {
         try {
                 const TaskList = await Task.find();
                 // provide both `tasks` and `TaskList` so templates using either name work
-                res.render('task', { title: 'Tasks', tasks: TaskList, TaskList: TaskList });
+                res.render('Tasks/list', { title: 'Tasks', tasks: TaskList, TaskList: TaskList });
         } catch (err) {
                 console.error(err);
                 return res.status(500).render('error', { title: 'Error', message: 'Failed to fetch tasks' });

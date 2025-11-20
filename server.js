@@ -20,15 +20,45 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
-
 /**
- * Listen on provided port, on all network interfaces.
+ * Start HTTP server and automatically try next ports if the requested
+ * port is already in use. This avoids repeated EADDRINUSE crashes during
+ * development when another process is holding the port.
  */
+let server;
+function listenWithRetry(startPort, maxRetries = 10) {
+  const attempt = (p, remaining) => {
+    const srv = http.createServer(app);
+    srv.on('listening', () => {
+      server = srv;
+      app.set('port', p);
+      onListening();
+    });
+    srv.on('error', (err) => {
+      if (err.syscall !== 'listen') {
+        throw err;
+      }
+      if (err.code === 'EADDRINUSE') {
+        console.error('Port ' + p + ' is already in use');
+        if (remaining > 0) {
+          const next = p + 1;
+          console.log('Trying port ' + next + '...');
+          attempt(next, remaining - 1);
+        } else {
+          console.error('No available ports found after retries.');
+          process.exit(1);
+        }
+      } else {
+        throw err;
+      }
+    });
+    srv.listen(p);
+  };
+  attempt(startPort, maxRetries);
+}
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+// Start listening with retries (uses normalized port number)
+listenWithRetry(port, 10);
 
 /**
  * Normalize a port into a number, string, or false.
